@@ -1,18 +1,57 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginFailed, loginSuccess } from '../../Store/Actions/Authentication';
 import './Form.scss';
 
 function Form() {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [rememberMe, setRememberMe] = useState(false);
+
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		try {
+			const response = await fetch('http://localhost:3001/api/v1/user/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email, password }),
+			});
+			if (response.ok) {
+				const data = await response.json();
+				const token = data.body.token;
+				dispatch(loginSuccess(token));
+				localStorage.setItem('token', token);
+				if (rememberMe) {
+					localStorage.setItem('token', token);
+				}
+				navigate('/profile');
+			} else {
+				const error = 'Incorrect email/password';
+				dispatch(loginFailed(error));
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
-		<form>
+		<form onSubmit={handleSubmit}>
 			<div className='input-wrapper'>
 				<label htmlFor='username'>Username</label>
-				<input id='username' type='text' />
+				<input id='username' type='email' value={email} onChange={(event) => setEmail(event.target.value)} />
 			</div>
 			<div className='input-wrapper'>
 				<label htmlFor='password'>Password</label>
-				<input id='password' type='password' />
+				<input id='password' type='password' value={password} onChange={(event) => setPassword(event.target.value)} />
 			</div>
 			<div className='input-remember'>
-				<input id='remember-me' type='checkbox' />
+				<input id='remember-me' type='checkbox' checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
 				<label htmlFor='remember-me'>Remember me</label>
 			</div>
 			<button className='sign-in-button'>Sign In</button>
