@@ -1,0 +1,51 @@
+.main {
+	flex: 1;
+	&-nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 5px 20px;
+		@media (max-width: 425px) {
+			padding: 5px 0px;
+		}
+		a {
+			color: #2c3e50;
+			font-weight: bold;
+			display: flex;
+			align-items: center;
+			&.router-link-exact-active {
+				color: #42b983;
+			}
+		}
+		&-item {
+			margin-right: 1rem;
+			text-decoration: none;
+			@media (max-width: 375px) {
+				margin-right: 0.5rem;
+			}
+			@media (max-width: 330px) {
+				margin-right: 0.25rem;
+			}
+			&:hover {
+				text-decoration: underline;
+			}
+			& svg {
+				padding-right: 0.2rem;
+			}
+		}
+		&-logo {
+			display: flex;
+			align-items: center;
+			&-image {
+				width: 200px;
+				max-width: 100%;
+				@media (max-width: 375px) {
+					width: 170px;
+				}
+			}
+		}
+		& div {
+			display: flex;
+		}
+	}
+}
