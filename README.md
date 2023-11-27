@@ -1,2 +1,25 @@
-# ArgentBank-website
-Code for the project on APIs and React for Intégrateur Web and JS-React paths.
+# ArgentBank-Backend
+Go to backend file with cd backend then execute :
+
+'localhost:3001 per default'
+
+``
+npm install
+
+npm run dev:server
+
+``
+
+# ArgentBank-Frontend
+Go to backend file with cd backend then execute :
+
+'localhost:3000 per default'
+
+``
+npm install
+
+npm start
+
+``
+
+
