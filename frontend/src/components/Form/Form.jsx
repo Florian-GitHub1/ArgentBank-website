@@ -1,62 +1,42 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { loginFailed, loginSuccess } from '../../Store/Actions/Authentication';
+import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { triggerLogin } from '../../slices/userSlice';
+import { selectUserError } from '../../Store/selectors/selectors';
+
 import './Form.scss';
 
-function Form() {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [rememberMe, setRememberMe] = useState(false);
-
-	const navigate = useNavigate();
+function LoginForm() {
 	const dispatch = useDispatch();
+	const userLoginError = useSelector(selectUserError());
+	const inputUsername = useRef();
+	const inputPassword = useRef();
+	const checkboxRemember = useRef();
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		try {
-			const response = await fetch('http://localhost:3001/api/v1/user/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ email, password }),
-			});
-			if (response.ok) {
-				const data = await response.json();
-				const token = data.body.token;
-				dispatch(loginSuccess(token));
-				localStorage.setItem('token', token);
-				if (rememberMe) {
-					localStorage.setItem('token', token);
-				}
-				navigate('/profile');
-			} else {
-				const error = 'Incorrect email/password';
-				dispatch(loginFailed(error));
-			}
-		} catch (error) {
-			console.error(error);
-		}
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		dispatch(triggerLogin(inputUsername.current.value, inputPassword.current.value, checkboxRemember.current.checked));
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={(e) => handleSubmit(e)}>
 			<div className='input-wrapper'>
 				<label htmlFor='username'>Username</label>
-				<input id='username' type='email' value={email} onChange={(event) => setEmail(event.target.value)} />
+				<input type='email' id='username' ref={inputUsername} required />
 			</div>
 			<div className='input-wrapper'>
 				<label htmlFor='password'>Password</label>
-				<input id='password' type='password' value={password} onChange={(event) => setPassword(event.target.value)} />
+				<input type='password' id='password' ref={inputPassword} required />
 			</div>
 			<div className='input-remember'>
-				<input id='remember-me' type='checkbox' checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
+				<input type='checkbox' id='remember-me' ref={checkboxRemember} />
 				<label htmlFor='remember-me'>Remember me</label>
 			</div>
-			<button className='sign-in-button'>Sign In</button>
+			<button type='submit' className='sign-in-button'>
+				Sign In
+			</button>
+			{userLoginError !== null ? <p style={{ color: 'red', marginBottom: 0 }}>E-mail or password incorrect</p> : null}
 		</form>
 	);
 }
 
-export default Form;
+export default LoginForm;

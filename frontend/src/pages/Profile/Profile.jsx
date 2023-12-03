@@ -1,54 +1,39 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { userProfile } from '../../Store/Actions/User.js';
-import User from '../../components/User/User.jsx';
+import { useSelector } from 'react-redux';
+import { selectUserFirstName, selectUserLastName } from '../../Store/selectors/selectors.js';
+import { useState } from 'react';
+
 import Account from '../../components/Account/Account.jsx';
 import AccountCardData from '../../DataAccounts/AccountData.json';
+import UserInfos from '../../components/userInfos/userInfos.jsx';
+import UserEditForm from '../../components/userEditForm/userEditForm.jsx';
 
-function UserProfile() {
-	const token = useSelector((state) => state.auth.token);
-	const dispatch = useDispatch();
+import './Profile.scss';
 
-	useEffect(() => {
-		if (token) {
-			const userData = async () => {
-				try {
-					const response = await fetch('http://localhost:3001/api/v1/user/profile', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${token}`,
-						},
-					});
-					if (response.ok) {
-						const data = await response.json();
+function Profile() {
+	const userFirstName = useSelector(selectUserFirstName());
+	const userLastName = useSelector(selectUserLastName());
+	const [isEditing, setIsEditing] = useState(false);
 
-						const userData = {
-							createdAt: data.body.createdAt,
-							updatedAt: data.body.updatedAt,
-							id: data.body.id,
-							email: data.body.email,
-							firstname: data.body.firstName,
-							lastname: data.body.lastName,
-							username: data.body.userName,
-						};
-
-						dispatch(userProfile(userData));
-					} else {
-						console.log('error while retrieving profile');
-					}
-				} catch (error) {
-					console.error(error);
-				}
-			};
-			userData();
-		}
-	}, [dispatch, token]);
-
+	const displayEditForm = (e) => {
+		e.preventDefault();
+		setIsEditing(!isEditing);
+	};
 	return (
-		<main className='bg-dark'>
-			<User />
-
+		<main className='main bg-dark'>
+			<div className='header'>
+				{!isEditing ? (
+					<>
+						<UserInfos firstName={userFirstName} lastName={userLastName} />
+						<button className='edit-button' onClick={(e) => displayEditForm(e)}>
+							Edit Name
+						</button>
+					</>
+				) : (
+					<>
+						<UserEditForm setIsEditing={setIsEditing} />
+					</>
+				)}
+			</div>
 			{AccountCardData.map((data) => (
 				<Account key={data.id} title={data.title} amount={data.amount} description={data.description} />
 			))}
@@ -56,4 +41,4 @@ function UserProfile() {
 	);
 }
 
-export default UserProfile;
+export default Profile;

@@ -1,24 +1,18 @@
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import logo from '../../assets/argentBankLogo.webp';
-import { logout } from '../../Store/Actions/Authentication';
+import { logout } from '../../slices/userSlice';
+import { selectUserIsConnected, selectUserFirstName } from '../../Store/selectors/selectors';
+
 import '../Header/Header.scss';
 import '../../main.scss';
 
 function Header() {
-	const isConnected = useSelector((state) => state.auth.token);
-	const firstname = useSelector((state) => state.user.userData.firstname);
-
+	const userIsConnected = useSelector(selectUserIsConnected());
+	const userFirstName = useSelector(selectUserFirstName());
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
-	const logoutHandler = () => {
-		dispatch(logout());
-		sessionStorage.clear();
-		localStorage.clear();
-		navigate('/');
-	};
 	return (
 		<nav className='main-nav'>
 			<Link className='main-nav-logo' to='/'>
@@ -26,7 +20,7 @@ function Header() {
 				<h1 className='sr-only'>Argent Bank</h1>
 			</Link>
 			<div>
-				{isConnected ? (
+				{userIsConnected ? (
 					<>
 						<NavLink className='main-nav-item' to='/profile'>
 							<svg xmlns='http://www.w3.org/2000/svg' height='1em' viewBox='0 0 496 512' fill='#2c3e50'>
@@ -37,9 +31,9 @@ function Header() {
 									0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z'
 								/>
 							</svg>
-							<span>{firstname}</span>
+							<span>{userFirstName}</span>
 						</NavLink>
-						<NavLink className='main-nav-item' to='/' onClick={logoutHandler}>
+						<NavLink className='main-nav-item' to='/' onClick={() => dispatch(logout())}>
 							<svg xmlns='http://www.w3.org/2000/svg' height='1em' viewBox='0 0 512 512' fill='#2c3e50'>
 								<path
 									d='M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 

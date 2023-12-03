@@ -1,0 +1,26 @@
+.profile-form {
+	flex-direction: column;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.buttons {
+	.button {
+		color: #fff;
+		padding: 8px;
+		font-size: 1.1rem;
+		font-weight: bold;
+		width: 115px;
+		&.btn-save {
+			border-color: #00bc77;
+			background-color: #00bc77;
+			margin-right: 0.5rem;
+		}
+		&.btn-cancel {
+			border-color: #b53c38;
+			background-color: #b53c38;
+			margin-left: 0.5rem;
+		}
+	}
+}
