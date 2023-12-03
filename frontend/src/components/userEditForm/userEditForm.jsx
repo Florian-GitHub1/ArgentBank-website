@@ -11,10 +11,12 @@ function UserEditForm({ setIsEditing }) {
 	const userFirstName = useSelector(selectUserFirstName());
 	const userLastName = useSelector(selectUserLastName());
 	const inputUserName = useRef();
+	const inputFirstName = useRef();
+	const inputLastName = useRef();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		dispatch(triggerUpdateProfile(inputUserName.current.value));
+		dispatch(triggerUpdateProfile(inputUserName.current.value, inputFirstName.current.value, inputLastName.current.value));
 		setIsEditing(false);
 	};
 
@@ -27,11 +29,11 @@ function UserEditForm({ setIsEditing }) {
 			</div>
 			<div className='input-wrapper'>
 				<label htmlFor='firstName'>Firstname :</label>
-				<input type='text' id='firstName' defaultValue={userFirstName} disabled='disabled' />
+				<input type='text' id='firstName' ref={inputFirstName} defaultValue={userFirstName} disabled='disabled' />
 			</div>
 			<div className='input-wrapper'>
 				<label htmlFor='lastName'>Lastname :</label>
-				<input type='text' id='lastName' defaultValue={userLastName} disabled='disabled' />
+				<input type='text' id='lastName' ref={inputLastName} defaultValue={userLastName} disabled='disabled' />
 			</div>
 			<div className='buttons'>
 				<button className='button btn-save' type='submit'>
