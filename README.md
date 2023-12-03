@@ -33,4 +33,24 @@ npm start
 
 ```
 
+#### Users
+
+To connect to the site and try changing the username.
+
+```bash
+    Email: 'tony@stark.com'
+    Password: 'password123'
+
+    Username: 'Iron' (per default)
+
+```
+
+```bash
+    Email: 'steve@rogers.com'
+    Password: 'password456'
+
+    Username: 'Captain' (per default)
+
+```
+
 
