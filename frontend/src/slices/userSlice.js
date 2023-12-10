@@ -67,7 +67,7 @@ const userSlice = createSlice({
 		loginFailure: (state, action) => {
 			state.error = action.payload;
 		},
-		logout: (state, action) => {
+		logout: () => {
 			localStorage.clear();
 			return initialState();
 		},
