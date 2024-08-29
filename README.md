@@ -52,17 +52,3 @@ To connect to the site and try changing the username.
     Username: 'Captain' (per default)
 
 ```
-# Captures d'écrans
-
-### Accueil
-![ReadMe Accueil](https://github.com/user-attachments/assets/3fade5e1-a730-4ead-858c-681e99e5cbdc)
-
-### Connexion
-![ReadMe Login](https://github.com/user-attachments/assets/d2185629-bd5a-4ba0-9682-b1dfb67f12e5)
-
-### Profile
-![ReadMe Profile-1](https://github.com/user-attachments/assets/ce47f403-406c-41c6-92de-3f123f5d702c)
-![ReadMe Profile-2](https://github.com/user-attachments/assets/c653d81b-71e3-467b-a2e3-00c8c66f48b9)
-
-### Erreur
-![ReadMe Error](https://github.com/user-attachments/assets/bd498e21-0f37-4bc7-b52a-5bc2e685e00a)
