@@ -52,5 +52,3 @@ To connect to the site and try changing the username.
     Username: 'Captain' (per default)
 
 ```
-
-
